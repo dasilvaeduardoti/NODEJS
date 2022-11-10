@@ -19,6 +19,19 @@ const checarAutenticacao = function (req, res, next){
 app.use(checarAutenticacao);
 */
 
+//Middleware para pegar dados dos formulários
+app.use(
+    express.urlencoded({
+        extended: true
+    })
+);
+
+app.use(express.json());
+
+const usuario = require('./usuario');
+
+app.use('/usuario', usuario);
+
 app.get('/produto/:id', (requisicao, resposta) => {
     const idProduto = requisicao.params.id;
     console.log("Resgatei o produto de ID: "+idProduto);
