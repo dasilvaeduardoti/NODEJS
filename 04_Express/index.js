@@ -28,20 +28,9 @@ app.use(
 
 app.use(express.json());
 
-app.post('/usuario/save', (req, resposta) =>{
-    //console.log(req.body);
-    const nome = req.body._nome;
-    const email = req.body._email;
+const usuario = require('./usuario');
 
-    console.log(`O ${nome} foi cadastrado com o e-mail ${email}`);
-
-    resposta.sendFile(`${basePath}/formulario.html`);
-
-});
-
-app.get('/usuario', (requisicao, resposta) => {
-    resposta.sendFile(`${basePath}/formulario.html`);
-});
+app.use('/usuario', usuario);
 
 app.get('/produto/:id', (requisicao, resposta) => {
     const idProduto = requisicao.params.id;
