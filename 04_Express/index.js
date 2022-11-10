@@ -3,7 +3,7 @@ const express   = require('express');
 const app       = express();
 const porta     = 3000; //Porta para acesso ao servidor
 const basePath  = path.join(__dirname, 'templates');
-
+/*
 const checarAutenticacao = function (req, res, next){
     req.authStatus = true;
 
@@ -17,6 +17,12 @@ const checarAutenticacao = function (req, res, next){
 }
 
 app.use(checarAutenticacao);
+*/
+
+app.get('/produto/:id', (requisicao, resposta) => {
+    const idProduto = requisicao.params.id;
+    console.log("Resgatei o produto de ID: "+idProduto);
+});
 
 app.get('/', (requisicao, resposta) => {
     resposta.sendFile(`${basePath}/index.html`);
