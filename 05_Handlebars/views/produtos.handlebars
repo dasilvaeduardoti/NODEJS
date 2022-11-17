@@ -1,0 +1,7 @@
+<h1>Lista de produtos</h1>
+<hr>
+<ul>
+    {{#each produtos}}
+        <ol>{{this.descricao}} R$ {{ this.preco }} {{#if this.promocao}} PROMOÇÃO {{/if}}</ol>
+    {{/each}}
+</ul>
