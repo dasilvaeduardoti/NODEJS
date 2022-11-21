@@ -33,8 +33,45 @@ app.get('/usuarios', (req, res) =>{
         }
         //console.log(usuarios);    
         res.render('usuarios', {usuarios});       
-    });
+    }); 
+});
+
+//Mostrar detalhes de um usuário
+app.get('/usuario/:id', (req, res) =>{
+    const id = req.params.id;
     
+    const sql = `select id_usuario, 
+                        nome_usuario, 
+                        endereco_usuario, 
+                        email_usuario, 
+                        data_nascimento_usuario 
+                    from usuario
+                    where id_usuario = ${id}`;
+    
+    conn.query(sql, (erro, result) => {
+        if(erro){
+            console.log(erro);
+            return;
+        }
+        const usuario = result[0];
+        res.render('usuario', {usuario});
+    })
+
+});
+
+app.get('/usuario/delete/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = `DELETE FROM usuario WHERE id_usuario = ${id}`;
+
+    conn.query(sql, (erro) => {
+        if(erro){
+            console.log(erro);
+            return;
+        }
+        res.redirect('/usuarios');
+    })
+
 });
 
 app.post('/usuario/save', (req, res) =>{
