@@ -59,6 +59,27 @@ app.get('/usuario/:id', (req, res) =>{
 
 });
 
+app.get('/usuario/edit/:id', (req, res) => {
+    const id = req.params.id;
+    
+    const sql = `select id_usuario, 
+                        nome_usuario, 
+                        endereco_usuario, 
+                        email_usuario, 
+                        data_nascimento_usuario 
+                    from usuario
+                    where id_usuario = ${id}`;
+    
+    conn.query(sql, (erro, result) => {
+        if(erro){
+            console.log(erro);
+            return;
+        }
+        const usuario = result[0];
+        res.render('usuario-edit', {usuario});
+    })
+})
+
 app.get('/usuario/delete/:id', (req, res) => {
     const id = req.params.id;
 
@@ -71,6 +92,31 @@ app.get('/usuario/delete/:id', (req, res) => {
         }
         res.redirect('/usuarios');
     })
+
+});
+
+app.post('/usuario/edit/save', (req, res) =>{
+    //Buscando dados do formulário
+    const id                = req.body.id_usuario;
+    const nome              = req.body.nome;
+    const endereco          = req.body.endereco;
+    const email             = req.body.email;
+    const dataNascimento    = req.body.dataNascimento;
+
+    const sql = `UPDATE usuario
+                SET nome_usuario = '${nome}',
+                endereco_usuario = '${endereco}',
+                email_usuario = '${email}',
+                data_nascimento_usuario = '${dataNascimento}'
+                where id_usuario = ${id}`;
+    
+    conn.query(sql, (erro) => {
+        if(erro){
+            console.log(erro);
+            return
+        }    
+        res.redirect(`/usuarios`);    
+    });
 
 });
 
