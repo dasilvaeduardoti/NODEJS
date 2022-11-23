@@ -1,6 +1,6 @@
 const express   = require('express');               //Importando módulo express
 const exphbs    = require('express-handlebars');    //Importando módulo Handlebars
-const mysql     = require('mysql');                 //Importanto módulo mysql
+const conn      = require('./db/conn');             //Conexão Pool Mysql
 const app       = express();                        //Instanciando o método express()
 
 //Configurando Handlebars
@@ -145,25 +145,6 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
-//Criando conexão com Banco de Dados
-const conn = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'db_comum'
-});
-
-//Conectando com o Banco de Dados
-conn.connect((erro) => {
-    if(erro){
-        console.log(erro);
-        return //Para a aplicação
-    }
-    
-    console.log('Conectou no banco db_comum!');
-    
-    app.listen(3000, ()=>{
-        console.log("O servidor está rodando.");
-    });
+app.listen(3000, () => {
+    console.log("O servidor está rodando.");
 });
