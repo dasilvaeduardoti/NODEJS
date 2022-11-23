@@ -19,14 +19,12 @@ app.use(express.json());
 //Rota de Usuário
 app.get('/usuarios', (req, res) =>{
 
-    const sql = `SELECT id_usuario, 
-                        nome_usuario, 
-                        endereco_usuario, 
-                        email_usuario, 
-                        data_nascimento_usuario 
-                    FROM usuario`;
+    const sql = `SELECT ??, ??, ??, ??, ?? FROM ??`;
 
-    conn.query(sql, (erro, usuarios) => {
+    const array = ['id_usuario', 'nome_usuario', 'endereco_usuario', 'email_usuario', 'data_nascimento_usuario', 
+                    'usuario'];
+
+    conn.query(sql, array, (erro, usuarios) => {
         if(erro){
             console.log(erro);
             return
@@ -40,15 +38,14 @@ app.get('/usuarios', (req, res) =>{
 app.get('/usuario/:id', (req, res) =>{
     const id = req.params.id;
     
-    const sql = `select id_usuario, 
-                        nome_usuario, 
-                        endereco_usuario, 
-                        email_usuario, 
-                        data_nascimento_usuario 
-                    from usuario
-                    where id_usuario = ${id}`;
+    const sql = `select ??, ??, ??, ??, ??
+                    from ??
+                    where ?? = ?`;
+    const array = ['id_usuario', 'nome_usuario', 'endereco_usuario', 'email_usuario', 'data_nascimento_usuario', 
+                    'usuario', 
+                    'id_usuario', id];
     
-    conn.query(sql, (erro, result) => {
+    conn.query(sql, array, (erro, result) => {
         if(erro){
             console.log(erro);
             return;
@@ -62,15 +59,15 @@ app.get('/usuario/:id', (req, res) =>{
 app.get('/usuario/edit/:id', (req, res) => {
     const id = req.params.id;
     
-    const sql = `select id_usuario, 
-                        nome_usuario, 
-                        endereco_usuario, 
-                        email_usuario, 
-                        data_nascimento_usuario 
-                    from usuario
-                    where id_usuario = ${id}`;
+    const sql = `select ??, ??, ??, ??, ??
+                    from ??
+                    where ?? = ?`;
     
-    conn.query(sql, (erro, result) => {
+    const array = ['id_usuario', 'nome_usuario', 'endereco_usuario', 'email_usuario', 'data_nascimento_usuario', 
+                        'usuario', 
+                        'id_usuario', id];
+    
+    conn.query(sql, array, (erro, result) => {
         if(erro){
             console.log(erro);
             return;
@@ -83,9 +80,11 @@ app.get('/usuario/edit/:id', (req, res) => {
 app.get('/usuario/delete/:id', (req, res) => {
     const id = req.params.id;
 
-    const sql = `DELETE FROM usuario WHERE id_usuario = ${id}`;
+    const sql = `DELETE FROM usuario WHERE ?? = ?`;
 
-    conn.query(sql, (erro) => {
+    const array = ['id_usuario', id];
+
+    conn.query(sql, array, (erro) => {
         if(erro){
             console.log(erro);
             return;
@@ -104,13 +103,16 @@ app.post('/usuario/edit/save', (req, res) =>{
     const dataNascimento    = req.body.dataNascimento;
 
     const sql = `UPDATE usuario
-                SET nome_usuario = '${nome}',
-                endereco_usuario = '${endereco}',
-                email_usuario = '${email}',
-                data_nascimento_usuario = '${dataNascimento}'
-                where id_usuario = ${id}`;
+                    SET ?? = ?, ?? = ?, ?? = ?, ?? = ?
+                    where ?? = ?`;
     
-    conn.query(sql, (erro) => {
+    const array = ['nome_usuario', nome,
+                    'endereco_usuario', endereco,
+                    'email_usuario', email,
+                    'data_nascimento_usuario',dataNascimento,
+                    'id_usuario', id];
+    
+    conn.query(sql, array, (erro) => {
         if(erro){
             console.log(erro);
             return
@@ -127,10 +129,12 @@ app.post('/usuario/save', (req, res) =>{
     const email             = req.body.email;
     const dataNascimento    = req.body.dataNascimento; 
     
-    const sql = `INSERT INTO usuario (nome_usuario, endereco_usuario, email_usuario, data_nascimento_usuario)
-        VALUES ('${nome}', '${endereco}', '${email}', '${dataNascimento}')`;
+    const sql = `INSERT INTO usuario (??, ??, ??, ??) VALUES (?, ?, ?, ?)`;
     
-    conn.query(sql, (erro) => {
+    const array = ['nome_usuario', 'endereco_usuario', 'email_usuario', 'data_nascimento_usuario',
+                    nome, endereco, email, dataNascimento];
+    
+    conn.query(sql, array, (erro) => {
         if(erro){
             console.log(erro);
             return
