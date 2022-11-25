@@ -1,0 +1,17 @@
+
+<h1>Editando Clube {{clube.nome}}</h1>
+
+<form action="/clube/edit/save" method="post">
+    <input type="hidden" name="id" value="{{clube.id}}" />
+    <input type="text" name="nome" value="{{clube.nome}}" placeholder="Digite o nome do clube" required />
+    <br>
+    <label>Status: </label>
+    {{#if clube.status}}
+    <input type="checkbox" name="status" checked />
+    {{else}}
+    <input type="checkbox" name="status" />
+    {{/if}}
+    <br>
+    <br>
+    <input type="submit" value="Atualizar Registro" />
+</form>
