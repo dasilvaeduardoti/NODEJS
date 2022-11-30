@@ -3,8 +3,9 @@ const exphbs    =   require('express-handlebars');  //Módulo Handlebars
 const conn      =   require('./db/conn');           //Módulo Banco de dados
 const app       =   express();                      //Classe express
 
-//Importação do módulo de Clube
-const Clube = require('./models/Clube');
+//Importanção dos Models
+const Clube = require('./models/Clube');            //Importação do módulo de Clube
+const Endereco = require('./models/Endereco');      //Importação do módulo de Endereço
 
 //Configuração da template engine (Handlebars)
 app.engine('handlebars', exphbs.engine());
@@ -42,9 +43,9 @@ app.get('/clube/:id', async (req, res) => {
 
     const id = req.params.id;
 
-    const clube = await Clube.findOne({raw:true, where: {id: id}});
+    const clube = await Clube.findOne({include: Endereco, where: {id: id}});
 
-    res.render('clube', {clube});
+    res.render('clube', {clube: clube.get({plain: true})});
 });
 
 app.get('/clube/delete/:id', async (req, res) => {
@@ -74,11 +75,38 @@ app.post('/clube/edit/save', async (req,res) => {
     res.redirect('/clubes');
 });
 
+//Rotas do Endereço
+app.post('/endereco/save', async (req, res) => {
+    const id = req.body.ClubeId;
+    const logradouro = req.body.logradouro;
+    const cep = req.body.cep;
+    const numero = req.body.numero;
+    const complemento = req.body.complemento;
+    const enderecoNovo = {logradouro, cep, numero, complemento, ClubeId: id}
+    
+    await Endereco.create(enderecoNovo);
+    res.redirect(`/clube/${id}`);
+});
+
+app.get('/endereco/delete/:idClube/:idEndereco', async (req, res) => {
+
+    const idClube = req.params.idClube;
+    const idEndereco = req.params.idEndereco;
+
+    await Endereco.destroy({where: {id: idEndereco}});
+
+    res.redirect(`/clube/${idClube}`);
+
+})
+
 app.get('/', (req, res) => {
     res.render('home');
 });
 
-conn.sync().then(() =>{
+conn
+.sync()
+//.sync({force: true})
+.then(() =>{
     app.listen(3000);
 }).catch((erro) => {
     console.log(erro);
