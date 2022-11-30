@@ -1,0 +1,59 @@
+<a href="/clubes">Voltar para listagem de Clubes</a>
+{{#with clube}}
+<h1>Detalhes do Clube {{nome}}</h1>
+<ul>
+    <li>ID Clube: {{id}} </li>
+    <li>Nome Clube: {{nome}}</li>
+    {{#if status}}
+    <li>Status Clube: Ativo</li>
+    {{else}}
+    <li>Status Clube: Inativo</li>
+    {{/if}}
+    <li>Created: {{createdAt}}</li>
+    <li>Updated: {{updatedAt}}</li>
+</ul>
+{{/with}}
+
+<hr>
+<h2>Cadastrar Endereços</h2>
+
+<form action="/endereco/save" method="post">
+    <label for="">Logradouro: </label>
+    <input type="text" name="logradouro" placeholder="Digite o Logradouto" />
+    <br>
+    <label for="">CEP: </label>
+    <input type="text" name="cep" placeholder="Digite o CEP" />
+    <br>
+    <label for="">Número: </label>
+    <input type="text" name="numero" placeholder="Digite o Número" />
+    <br>
+    <label for="">Complemento: </label>
+    <input type="text" name="complemento" placeholder="Digite o complemento" />
+    <br>
+    <input type="hidden" name="ClubeId" value="{{ clube.id }}">
+    <input type="submit" value="Cadastrar Endereço" />
+</form>
+<hr>
+<h2>Lista de Endereços do Clube</h2>
+<table border="1px">
+    <tr>
+        <th>#</th>
+        <th>Logradouro</th>
+        <th>CEP</th>
+        <th>Número</th>
+        <th>Complemento</th>
+        <th>Ações</th>
+    </tr>
+    {{#each clube.Enderecos }}
+    <tr>
+        <td>{{this.id}}</td>
+        <td>{{this.logradouro}}</td>
+        <td>{{this.cep}}</td>
+        <td>{{this.numero}}</td>
+        <td>{{this.complemento}}</td>
+        <td>
+            <a href="/endereco/delete/{{this.ClubeId}}/{{this.id}}"> Excluir </a>
+        </td>
+    </tr>
+    {{/each}}
+</table>
