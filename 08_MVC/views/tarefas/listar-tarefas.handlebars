@@ -1,0 +1,8 @@
+<a href="/tarefas/criar">Cadastrar Novas Tarefas</a>
+<hr>
+<h1>Lista de tarefas</h1>
+<ul>
+    {{#each tarefas}}
+        <li>{{this.titulo}} - {{this.descricao}}</li>
+    {{/each}}
+</ul>
