@@ -1,1 +1,9 @@
-<h1>Página HOME</h1>
+{{#each posts}}
+<div class="row">
+    <div class="blog-post">
+        <h2 class="blog-post-title">{{this.titulo}}</h2>
+        <p class="blog-post-meta">{{this.createdAt}}<a href="#">{{this.User.nome}}</a></p>
+        <p>{{this.descricao}}</p>
+    </div>
+</div> 
+{{/each}}
