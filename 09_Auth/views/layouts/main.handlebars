@@ -7,6 +7,15 @@
     <title>Sistema de autenticação</title>
 </head>
 <body>
+    <nav>
+        <li><a href="/">Página Home</a></li>
+        {{#if session.userId}}
+        <li><a href="/logout">Sair</a></li>
+        {{else}}
+        <li><a href="/login">Faça seu Login</a></li>
+        <li><a href="/register">Crie sua conta</a></li>
+        {{/if}}
+    </nav>
     {{{body}}}
 </body>
 </html>

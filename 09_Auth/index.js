@@ -53,12 +53,10 @@ const Post = require('./models/Post');
 
 //Importar as Rotas
 const authRoutes = require('./routes/authRoute');
+const postRoutes = require('./routes/postRoutes');
 
 app.use('/', authRoutes);
-
-app.get('/', (req, res) => {
-    res.render('home');
-})
+app.use('/', postRoutes);
 
 conn.sync()
 .then(
