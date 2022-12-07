@@ -18,7 +18,24 @@ module.exports = class TarefaController {
     static async listarTarefas(req, res){
 
         const tarefas = await Tarefa.findAll({raw: true});
-
+        
         res.render('tarefas/listar-tarefas', {tarefas});
     }
+
+    static async editarTarefa(req, res){
+        const id = req.params.id;
+        const tarefa = await Tarefa.findOne({raw: true, where: {id, id}});
+        res.render('tarefas/editar', {tarefa});
+    }
+
+    static async saveEdit(req, res){
+
+    }
+
+    static async concluirTarefa(req, res){
+        const id = req.params.id;
+        await Tarefa.update({status: true}, {where: {id:id}});
+        res.redirect('/tarefas');
+    }
+
 }

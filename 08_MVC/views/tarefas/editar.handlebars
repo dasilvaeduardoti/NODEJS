@@ -1,0 +1,12 @@
+<h1>Editar Tarefa {{tarefa.titulo}}</h1>
+
+<form action="/tarefas/save-edit" method="post">
+    <input type="hidden" name="id" value="{{tarefa.id}}">
+    <input type="text" name="titulo" value="{{tarefa.titulo}}" placeholder="Digite o título da tarefa" />
+    <br>
+    <textarea name="descricao" placeholder="Digite aqui a descrição da tarefa" cols="30" rows="5">
+    {{tarefa.descricao}}
+    </textarea>
+    <br>
+    <input type="submit" value="Salvar edição Tarefa">
+</form>
