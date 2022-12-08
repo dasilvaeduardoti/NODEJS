@@ -3,6 +3,13 @@
 <h1>Lista de tarefas</h1>
 <ul>
     {{#each tarefas}}
-        <li>{{this.titulo}} - {{this.descricao}}</li>
+        {{#if this.status}}
+        <li style="text-decoration: line-through;">{{this.titulo}}
+            - {{this.descricao}}</li>
+        {{else}}
+            <li>
+            <a href="/tarefas/editar/{{this.id}}">{{this.titulo}}</a>
+            - {{this.descricao}} <a href="/tarefas/concluir/{{this.id}}">Concluir</a> </li>
+        {{/if}}
     {{/each}}
 </ul>
